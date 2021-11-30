@@ -1,0 +1,13 @@
+apply from: "${rootProject.rootDir}/common_config_project.gradle"
+if (project.ext.isWidgetDebug) {
+    project.ext.setAppDefaultConfig project
+} else {
+    project.ext.setLibDefaultConfig project
+}
+
+dependencies {
+    implementation project(':module_annotation')
+    implementation project(':module_api')
+    annotationProcessor project(':module_compiler')
+}
+

@@ -1,0 +1,69 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 26
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation project(':module_annotation')
+}
+
+//可以通过publish命令，发送到本地mavenlocal仓库
+// IDE中可以查看对应的publish命令
+apply plugin: 'maven-publish'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact "${buildDir}/outputs/aar/${project.name}-debug.aar"
+            groupId "com.coodev.module_api"
+            artifactId "api"
+            version "1.0.0"
+        }
+    }
+}
+
+// 上传到maven仓库
+apply plugin: 'maven'
+uploadArchives{
+    repositories.mavenDeployer{
+        def dePath = file('/Users/EnvisionBoundary/Github/Maven')//publish github
+        repository(url:"file://${dePath.absolutePath}")
+        pom.groupId = "com.coodev.module_api"
+        pom.artifactId = "api"
+        pom.version = "1.0.0"
+    }
+}
+
+// 上传到github上的maven包，需要使用如下进行引用
+// maven { url "https://raw.githubusercontent.com/coodeve/Maevn/master }

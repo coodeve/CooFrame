@@ -1,2 +1,8 @@
+include ':module_api'
+include ':module_compiler'
+include ':module_annotation'
+include ':widget'
+include ':media'
+include ':base'
 include ':app'
 rootProject.name = "CooFrame"

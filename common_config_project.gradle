@@ -1,0 +1,50 @@
+project.ext {
+    isWidgetDebug = false
+    // 配置整个module的build.gradle ，config project/build.gradle
+    // example , create common method
+    setAppDefaultConfig = { extension ->
+        // include com.android.application
+        extension.apply plugin: 'com.android.application'
+        extension.description 'app'
+        setAndroidConfig extension.android
+        setDependiciens extension.dependencies
+
+    }
+
+    setLibDefaultConfig = { extension ->
+        extension.apply plugin: 'com.android.library'
+        extension.description 'lib'
+        setAndroidConfig extension.android
+        setDependiciens extension.dependencies
+    }
+
+    setAndroidConfig = { extension ->
+        extension.compileSdkVersion 29
+        extension.buildToolsVersion '29.0.3'
+        extension.resourcePrefix "${project.name}"
+        extension.defaultConfig {
+            if(isWidgetDebug){
+                applicationId 'com.coodev.widget'
+            }
+            minSdkVersion 26
+            targetSdkVersion 29
+            versionCode 1
+            versionName "1.0"
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            // 会将混淆文件打包入aar中，库混淆时会自动使用
+            // 只针对aar
+            // 全局混淆放置在app中
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    setDependiciens = { extension ->
+        extension.implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+        extension.implementation 'androidx.appcompat:appcompat:1.2.0'
+        extension.implementation 'com.google.android.material:material:1.2.1'
+        extension.testImplementation 'junit:junit:4.+'
+        extension.androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+        extension.androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+        extension.implementation project(':base')
+    }
+}

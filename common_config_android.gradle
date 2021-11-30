@@ -1,0 +1,33 @@
+project.ext {
+
+    compileSdkVersion = 29
+    buildToolVersion = "29.0.3"
+    minSdkVersion = 26
+    targetSdkVersion = 29
+
+    // 配置整个Android{} , config Android{}
+    // example defaultConfig
+    setDefaultConfig = { extension ->
+        extension.compileSdkVersion compileSdkVersion
+        extension.buildToolsVersion buildToolVersion
+        // 动态检测资源命名是否设置前缀
+        // resourcePrefix 只能限定Xml资源，并不能限定图片资源，图片资源扔需要自身注意设置前缀名
+        extension.resourcePrefix "${project.name}"
+        extension.defaultConfig {
+            minSdkVersion minSdkVersion
+            targetSdkVersion targetSdkVersion
+            versionCode 1
+            versionName "1.0"
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            // 会将混淆文件打包入aar中，库混淆时会自动使用
+            // 只针对aar
+            // 全局混淆放置在app中
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        extension.compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+}

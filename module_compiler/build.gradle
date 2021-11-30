@@ -1,0 +1,17 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+    implementation 'com.squareup:javapoet:1.12.1'
+    implementation project(':module_annotation')
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'org.apache.commons:commons-collections4:4.1'
+}

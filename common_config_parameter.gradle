@@ -1,0 +1,36 @@
+project.ext {
+
+    // 配置项，将单个项目配置到project.ext中
+    // --- build ---
+    compileSdkVersion = 29
+    buildToolVersion = "29.0.3"
+    minSdkVersion = 26
+    targetSdkVersion = 29
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    // --- dependencies somethings ---
+    // androidx
+    androidxCommpat = "androidx.appcompat:appcompat:1.2.0"
+    androidxConstraintlayout = 'androidx.constraintlayout:constraintlayout:2.0.4'
+    // localBroadcastManager
+    localbroadcastManager = "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
+    // rxJava ,rxAndroid
+    rxjava = 'io.reactivex.rxjava2:rxjava:2.2.10'
+    rxAndroid = 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    // eventBus
+    eventBus = 'org.greenrobot:eventbus:3.1.1'
+    // ARouter
+    arouter = "com.alibaba:arouter-api:1.5.1"
+    // 每个模块的dependencies需要此引用，不然无法在apt中生成索引，同时要添加javaCompileOptions的内容
+    arouter_annotationProcessor = "com.alibaba:arouter-compiler:1.5.1"
+    // jOOR
+    joor = 'org.jooq:joor:0.9.6'
+    // greenDao
+    greenDao = 'org.greenrobot:greendao:3.3.0' // add library
+
+
+
+
+}

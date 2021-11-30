@@ -1,6 +1,5 @@
-plugins {
-    id 'com.android.application'
-}
+apply plugin: 'com.android.application'
+apply from: "${rootProject.rootDir}/common_config_project.gradle"
 
 android {
     compileSdkVersion 29
@@ -14,6 +13,38 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        flavorDimensions 'versionCode'
+    }
+
+    productFlavors {
+        yingyongbao {
+            buildConfigField "int", "Channel", "1"
+        }
+        xiaomi {
+            buildConfigField "int", "Channel", "2"
+
+        }
+        huawei {
+            buildConfigField "int", "Channel", "3"
+
+        }
+        wandoujia {
+            buildConfigField "int", "Channel", "4"
+
+        }
+
+        // 可以多渠道和多模块配置，比如client和server两端
+        client {
+            applicationId "com.client"
+        }
+
+        server {
+            applicationId "com.server"
+        }
+
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [channel: name]
+        }
     }
 
     buildTypes {
@@ -33,7 +64,27 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // sub project
+    implementation project(':base')
+    implementation project(path: ':media')
+    // 非调试状态加入widget
+    if (!project.ext.isWidgetDebug) {
+        implementation project(':widget')
+    }
+
+    // 多渠道多模块配置
+    clientImplementation project(':base')
+    serverImplementation project(':base')
+
+}
+
+
+// 选择性的去除某些不需要执行的gradle task的任务
+tasks.whenTaskAdded { task ->
+    if(task.name.contains("UnitTest")){
+        task.enabled = false
+    }
 }
